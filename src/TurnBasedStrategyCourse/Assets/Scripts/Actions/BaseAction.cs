@@ -7,7 +7,7 @@ public abstract class BaseAction : MonoBehaviour
 {
     protected Unit unit;
     protected bool isActive;
-    protected Action onActionCompleted;
+    protected Action onActionComplete;
 
     protected virtual void Awake()
     {
@@ -28,5 +28,17 @@ public abstract class BaseAction : MonoBehaviour
     public virtual int GetActionPointCost()
     {
         return 1;
+    }
+
+    protected void ActionStart(Action onActionComplete)
+    {
+        isActive = true;
+        this.onActionComplete = onActionComplete;
+    }
+
+    protected void ActionComplete()
+    {
+        isActive = false;
+        this.onActionComplete?.Invoke();
     }
 }
