@@ -45,6 +45,6 @@ public class SpinAction : BaseAction
 
     public override int GetActionPointCost()
     {
-        return 2;
+        return 1;
     }
 }
