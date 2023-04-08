@@ -22,7 +22,7 @@ public class TurnSystem : MonoBehaviour
         }
 
         Instance = this;
-        //isPlayerTurn = true;
+        isPlayerTurn = true;
     }
 
 
