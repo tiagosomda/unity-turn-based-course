@@ -22,9 +22,9 @@ public class PathfindingGridDebugObject : GridDebugObject
     protected override void Update()
     {
         base.Update();
-        gCostText.text = pathNode.GetGCost().ToString();
-        hCostText.text = pathNode.GetHCost().ToString();
-        fCostText.text = pathNode.GetFCost().ToString();
+        gCostText.text = $"g: {pathNode.GetGCost()}";
+        hCostText.text = $"h: {pathNode.GetHCost()}";
+        fCostText.text = $"f: {pathNode.GetFCost()}";
         isWalkableSprite.color = pathNode.IsWalkable() ? walkableColor : notWalkableColor;
     }
 }

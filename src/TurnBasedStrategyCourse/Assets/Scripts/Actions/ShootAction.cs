@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class ShootAction : BaseAction
 {
+    public static event EventHandler<OnShootEventArgs> OnAnyShoot;
     public event EventHandler<OnShootEventArgs> OnShoot;
 
     public class OnShootEventArgs : EventArgs
@@ -21,6 +22,7 @@ public class ShootAction : BaseAction
         Cooloff,
     }
 
+    [SerializeField] private LayerMask obstacleLayerMask;
     private int maxShootDistance = 7;
     private State state;
     private float stateTimer;
@@ -140,6 +142,19 @@ public class ShootAction : BaseAction
                     continue;
                 }
 
+                Vector3 unitWorldPosition = LevelGrid.Instance.GetWorldPosition(unitGridPosition);
+                Vector3 shootDirection = (targetUnit.GetWorldPosition() - unitWorldPosition).normalized;
+                float unitShoulderHeight = 1.7f;
+                if(Physics.Raycast(
+                    unitWorldPosition + Vector3.up * unitShoulderHeight,
+                    shootDirection,
+                    Vector3.Distance(unitWorldPosition, targetUnit.GetWorldPosition()),
+                    obstacleLayerMask))
+                {
+                    // blocked by an obstacle
+                    continue;
+                }
+
                 validGridPositionList.Add(testGridPosition);
             }
         }
@@ -150,6 +165,12 @@ public class ShootAction : BaseAction
     private void Shoot()
     {
         OnShoot?.Invoke(this, new OnShootEventArgs()
+        {
+            targetUnit = targetUnit,
+            shootingUnit = unit
+        });
+
+        OnAnyShoot?.Invoke(this, new OnShootEventArgs()
         {
             targetUnit = targetUnit,
             shootingUnit = unit
