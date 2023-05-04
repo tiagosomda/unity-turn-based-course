@@ -85,4 +85,16 @@ public class LevelGrid : MonoBehaviour
         return gridObject.GetUnit();
     }
 
+    public IInteractable GetInteractableAtGridPosition(GridPosition gridPosition)
+    {
+        var gridObject = gridSystem.GetGridObject(gridPosition);
+        return gridObject.GetInteractable();
+    }
+
+
+    public void SetInteractableAtGridPosition(GridPosition gridPosition, IInteractable door)
+    {
+        var gridObject = gridSystem.GetGridObject(gridPosition);
+        gridObject.SetInteractable(door);
+    }
 }
